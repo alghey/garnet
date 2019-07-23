@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	
+	<schema-selection match-schema="dbo"/>
+	
+	<type-mapping>
+
+		<sql-type jdbc-type="NVARCHAR"
+			hibernate-type="java.lang.String">
+		</sql-type>
+
+		<sql-type jdbc-type="TIMESTAMP"
+			hibernate-type="java.time.LocalDateTime">
+		</sql-type>
+	</type-mapping>
+
+
+	<!--  VISTA FERNANDO -->
+<!-- 	<table-filter match-name="vwConsultaComisiones"/> -->
+
+	
+	 
+	
+
+	<!--  HML -->
+	
+	<table-filter match-name="Link_Hml_Codigo"/>
+	
+	<table-filter match-name="Dat_Hml_Operacion"/>
+	<table-filter match-name="Dat_Hml_Parametro"/>
+	<table-filter match-name="Dat_Hml_Servicio"/>
+	<table-filter match-name="Dat_Hml_Servicio_Proveedor"/>
+	
+	<table-filter match-name="Cat_Hml_Tipo_Servicio"/>
+	<table-filter match-name="Cat_Hml_Proveedor"/>
+	<table-filter match-name="Cat_Hml_Modo_Entrada"/>
+	<table-filter match-name="Cat_Hml_Configuracion"/>
+	<table-filter match-name="Cat_Hml_Codigo_Heimdal"/>
+	
+	
+
+	<table-filter match-name="Dat_Historico_Password"/> <!-- TORRES -->
+		
+	<table-filter match-name="Dat_Codigo_Sms"/>
+	
+	<table-filter match-name="Dat_Historico_Tarjetahabiente"/>
+	
+	<table-filter match-name="Dat_EstatusSession"/>
+	
+	<table-filter match-name="Dat_Intentos_LogIn"/>
+						      
+
+	<table-filter match-name="Dat_Tarjeta"/>
+	<table-filter match-name="Dat_Cuenta"/>
+
+	<table-filter match-name="Cat_Configuracion"/>
+	<table-filter match-name="Dat_Token_Password"/>
+	
+	<table-filter match-name="Cat_Pregunta_Secreta"/>
+	<table-filter match-name="Dat_Respuesta_Secreta"/>
+	
+	<table-filter match-name="Dat_Usuario"/>
+	<table-filter match-name="Cat_Estatus_Usuario"/>
+	<table-filter match-name="Dat_Persona"/>
+	<table-filter match-name="Dat_Tarjetahabiente"/>
+	<table-filter match-name="Cat_Estatus_Tarjetahabiente"/>
+	<table-filter match-name="Cat_Clasificacion"/>
+	<table-filter match-name="Dat_EstatusSession"/>
+	<table-filter match-name="Dat_DocumentoTarjetahabiente"/>
+	<table-filter match-name="Dat_ArchivoTarjetaHabiente"/>
+	
+	<table-filter match-name="Dat_MovimientosTarjetahabiente"/>
+	<table-filter match-name="Dat_ApiCall"/>
+	<table-filter match-name="Cat_TipoMovimientoTarjetahabiente"/>
+	<table-filter match-name="Cat_TipoAccionCacao"/>
+	<table-filter match-name="Dat_HistoricoAcccionesCacao"/>
+	
+	<table-filter match-name="Dat_EstadoCuenta"/>
+	<table-filter match-name="Cat_Periodo"/>
+	<table-filter match-name="Dat_Favoritos"/>
+	<table-filter match-name="Dat_Empresa"/>
+	<table-filter match-name="Dat_SolicitudCredito"/>
+	
+	<table-filter match-name="Dat_EstatusCredito"/>
+	<table-filter match-name="Dat_Pago"/>
+	<table-filter match-name="Dat_Fondeador"/>
+	<table-filter match-name="Dat_Detalle_Fondeador"/>
+	
+	<table-filter match-name="Dat_Favorito"/>
+
+
+	<table-filter match-name="vwHmlPaquetesTelefonia"/>
+	<table-filter match-name="vwHmlListaServicios"/>
+	<table-filter match-name="vwHmlVtaCarriers"/>
+
+	<!-- HEIMDAL -->
+	<table catalog="Xocolatl" schema="dbo" name="vwHmlPaquetesTelefonia">
+		<primary-key>
+			<key-column name="IdPaqueteTelefonia" />
+		</primary-key>
+	</table>
+
+	<table catalog="Xocolatl" schema="dbo" name="vwHmlListaServicios">
+		<primary-key>
+			<key-column name="IdServicio" />
+		</primary-key>
+	</table>
+	<table catalog="Xocolatl" schema="dbo" name="vwHmlVtaCarriers">
+		<primary-key>
+			<key-column name="IdVtaCarrier" />
+		</primary-key>
+	</table>
+
+
+	<!-- <table catalog="Xocolatl" schema="dbo" name="vwConsultaComisionistas"> -->
+<!-- 	<primary-key> -->
+<!-- 		<key-column name="IdComisionista" /> -->
+<!-- 	</primary-key> -->
+
+<!-- </table> -->
+
+
+</hibernate-reverse-engineering>
