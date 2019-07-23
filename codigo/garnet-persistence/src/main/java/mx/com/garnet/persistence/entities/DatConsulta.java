@@ -1,5 +1,9 @@
 package mx.com.garnet.persistence.entities;
+<<<<<<< HEAD
 // Generated 23 jul 2019 12:19:15 by Hibernate Tools 5.1.10.Final
+=======
+// Generated 23/07/2019 12:10:14 PM by Hibernate Tools 5.1.10.Final
+>>>>>>> master
 
 import java.math.BigDecimal;
 import java.util.Date;
