@@ -76,7 +76,7 @@ public class DatConsulta implements java.io.Serializable {
 		this.datMedico = datMedico;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idPaciente", nullable = false)
 	public DatPaciente getDatPaciente() {
 		return this.datPaciente;
