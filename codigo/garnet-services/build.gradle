@@ -1,0 +1,97 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+sourceCompatibility = 11
+
+group = 'mx.com.garnet'
+war{
+	enabled=true
+	classpath = classpath - sourceSets.main.output
+	archiveName 'garnet-services.war'
+	from (jar) {
+		into 'WEB-INF/lib'
+	}
+
+}
+
+task printClasspath {
+    doLast {
+        configurations.testRuntime.each { println it }
+    }
+}
+
+jar {
+	enabled=true
+	baseName = 'garnet-services'
+	version = '0.0.1-SNAPSHOT'
+}
+
+repositories {
+	flatDir {
+       dirs 'libs'
+   }
+	mavenCentral()
+}
+
+configurations {
+	providedRuntime
+	compile.exclude module : 'spring-boot-starter-logging'
+}
+
+
+dependencies {
+	implementation('org.springframework.boot:spring-boot-starter-security')
+	implementation('org.springframework.boot:spring-boot-starter-cache')
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.4.RELEASE'
+	compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.9.RELEASE'
+
+	compile('javax.xml.bind:jaxb-api:2.3.0')
+	compile('javax.activation:activation:1.1')
+	compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
+
+	implementation('org.springframework.boot:spring-boot-starter-activemq')
+	implementation('org.springframework.boot:spring-boot-starter-batch')
+	implementation('org.springframework.boot:spring-boot-starter-data-rest')
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	implementation('org.springframework.boot:spring-boot-starter-log4j2')
+	compile('org.springframework.boot:spring-boot-starter-tomcat') 
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.springframework.batch:spring-batch-test')
+	testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+	testImplementation('org.springframework.security:spring-security-test')
+	testCompile("org.springframework.boot:spring-boot-starter-test")
+	compile project(path: ':garnet-persistence')
+	compile project(path: ':garnet-common')
+
+	compile group: 'org.springframework.security', name: 'spring-security-web', version: '5.1.1.RELEASE'
+
+	//JWT
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.1'
+	compile group: 'org.hibernate', name: 'hibernate-c3p0', version: '5.3.7.Final'
+
+	compile('org.springframework.boot:spring-boot-starter-mail')
+
+	implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.3.0'
+
+	//JMS
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-activemq', version: '2.1.1.RELEASE'
+	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '1.4.6'
+	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
+	
+}

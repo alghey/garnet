@@ -1,0 +1,8 @@
+rootProject.name = 'garnet-services'
+
+include ':garnet-common'
+project(':garnet-common').projectDir = new File(settingsDir,'../garnet-common')
+
+include ':garnet-persistence'
+project(':garnet-persistence').projectDir = new File(settingsDir,'../garnet-persistence')
+
