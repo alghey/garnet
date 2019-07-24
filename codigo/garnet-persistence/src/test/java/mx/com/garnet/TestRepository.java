@@ -11,28 +11,5 @@ import static org.junit.Assert.assertNotNull;
 //@DataJpaTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 public class TestRepository {
-    /*@Autowired
-    private TestEntityManager entityManager;
 
-    @Autowired
-    CatStatusExampleRepository repository;
-
-    @Transactional
-    @Test
-    public void TestRepository(){
-        CatStatusExample cat = new CatStatusExample("Prueba 4");
-        entityManager.persist(cat);
-        entityManager.flush();
-        assertNotNull(cat);
-
-        cat = repository.findById(8);
-        if(cat != null){
-            System.out.printf("Detalle[" + cat.getDetalle() +"]");
-        }
-
-    }*/
-
-    public CatalogoResponse obtenerCatalogo(CatalogoRequest request){
-
-    }
 }
