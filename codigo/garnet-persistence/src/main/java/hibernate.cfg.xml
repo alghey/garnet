@@ -7,7 +7,10 @@
         <property name="hibernate.connection.password">etySvjrdR2s8fz7X</property>
         <property name="hibernate.connection.url">jdbc:mariadb://serti.mx:3306</property>
         <property name="hibernate.connection.username">usrGarnet</property>
+<<<<<<< HEAD
         <property name="hibernate.default_schema">garnet</property>
+=======
+>>>>>>> master
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
         <property name="hibernate.search.autoregister_listeners">true</property>
         <property name="hibernate.validator.apply_to_ddl">false</property>
