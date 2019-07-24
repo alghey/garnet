@@ -59,4 +59,31 @@ public class EspecialidadRepositoryTest {
         }
     }
 
+    //@Test
+    public void GuardarEspecialidad(){
+
+        CatEspecialidad especialidad = new CatEspecialidad();
+        especialidad.setNombre("Pediatria");
+
+        especialidadRepository.save(especialidad);
+
+        System.out.println("Id de la especialidad " + especialidad.getIdEspecialidad());
+
+
+    }
+
+    @Test
+    public void ModificarEspecialidad() {
+
+        Optional<CatEspecialidad> especialidad = especialidadRepository.findById(4);
+        if (especialidad.isPresent()) {
+            especialidad.get().setNombre("Fisioterapia");
+
+            especialidadRepository.save(especialidad.get());
+
+            System.out.println("el nombre de la especialidad con Id 5 es : " + especialidad.get().getNombre());
+        }
+    }
+
+
 }
