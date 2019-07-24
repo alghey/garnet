@@ -38,7 +38,7 @@ public class EspecialidadRepositoryTest {
         });
     }
 
-    @Test
+    //@Test
     public void findByIdEspecialidad(){
 
         Optional<CatEspecialidad> especialidad = especialidadRepository.findById(20);
@@ -58,5 +58,7 @@ public class EspecialidadRepositoryTest {
             System.out.println("No se encontraron registros");
         }
     }
+
+
 
 }
