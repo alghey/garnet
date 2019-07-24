@@ -27,7 +27,7 @@ public class EspecialidadRepositoryTest {
     @Autowired
     EspecialidadRepository especialidadRepository;
 
-    //@Test
+    @Test
     public void listAllEspecialidad(){
 
         Iterable<CatEspecialidad> especialidades = especialidadRepository.findAll();
@@ -38,7 +38,6 @@ public class EspecialidadRepositoryTest {
         });
     }
 
-    //@Test
     public void findByIdEspecialidad(){
 
         Optional<CatEspecialidad> especialidad = especialidadRepository.findById(20);
@@ -59,6 +58,48 @@ public class EspecialidadRepositoryTest {
         }
     }
 
+
+   // @Test
+    public void guardarEspecialidad(){
+
+        CatEspecialidad especialidad = new CatEspecialidad();
+        especialidad.setNombre("Pediatría");
+
+        especialidadRepository.save(especialidad);
+
+        System.out.println("Id de la especialidad " + especialidad.getIdEspecialidad());
+
+    }
+
+    //@Test
+    public void modificarEspecialidad(){
+
+      Optional<CatEspecialidad> especialidad = especialidadRepository.findById(4);
+
+      if(especialidad.isPresent()){
+          especialidad.get().setNombre("Fisioterapia");
+
+          especialidadRepository.save(especialidad.get());
+
+          System.out.println("El nombre de la especialidad con id 4 es: " + especialidad.get().getNombre());
+      }
+
+    }
+
+    //@Test
+    public void borrarEspecialidad(){
+        //Optional<CatEspecialidad> especialidad = especialidadRepository.findById(4);
+
+        especialidadRepository.deleteById(13);
+
+        Optional<CatEspecialidad> especialidad = especialidadRepository.findById(13);
+
+        if(especialidad.isPresent()){
+            System.out.println("No se borro la entidad");
+        }else{
+            System.out.println("Se borro correctamente");
+        }
+    }
 
 
 }
