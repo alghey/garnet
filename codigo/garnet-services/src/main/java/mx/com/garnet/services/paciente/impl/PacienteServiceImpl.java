@@ -65,9 +65,9 @@ public class PacienteServiceImpl implements PacienteService {
         ListaPacientesResponse response = new ListaPacientesResponse();
 
         PacienteVo paciente = new PacienteVo();
-        Optional<DatPaciente> pacienteDB = pacienteRepository.findById(2);
+        Optional<DatPaciente> pacienteDB = pacienteRepository.findById(id);
         try{
-            pacientesDB.forEach(pacienteDB->{
+
                 DatDueno duenoDB = pacienteDB.getDatDueno();
                 DuenoVo duenoVo = new DuenoVo(){{
                     setIdDueno(duenoDB.getIdDueno());
@@ -84,8 +84,8 @@ public class PacienteServiceImpl implements PacienteService {
                     setDuenoVo(duenoVo);
                 }};
 
-                pacientes.add(pacienteVo);
-            });
+            pacientes.add(pacienteVo);
+
 
             response.setPacientes(pacientes);
             response.setCode("OK");
