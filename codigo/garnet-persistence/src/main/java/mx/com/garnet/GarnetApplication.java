@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GarnetApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CookApplication.class, args);
+		SpringApplication.run(GarnetApplication.class, args);
 	}
 }

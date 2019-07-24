@@ -41,7 +41,7 @@ public class EspecialidadRepositoryTest {
     @Test
     public void findByIdEspecialidad(){
 
-        Optional<CatEspecialidad> especialidad = especialidadRepository.findById(20);
+        Optional<CatEspecialidad> especialidad = especialidadRepository.findById(2);
 /*
         try{
             System.out.println("Id ");
