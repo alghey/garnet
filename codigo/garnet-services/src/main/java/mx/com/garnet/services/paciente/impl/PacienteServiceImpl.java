@@ -1,6 +1,7 @@
 package mx.com.garnet.services.paciente.impl;
 
 import mx.com.garnet.common.pacientes.dto.ListaPacientesResponse;
+import mx.com.garnet.common.pacientes.dto.PacienteResponse;
 import mx.com.garnet.common.pacientes.vo.DuenoVo;
 import mx.com.garnet.common.pacientes.vo.PacienteVo;
 import mx.com.garnet.persistence.entities.DatDueno;
@@ -61,33 +62,120 @@ public class PacienteServiceImpl implements PacienteService {
 
         return response;
     }
-    public ListaPacientesResponse listaPaciente(int id){
-        ListaPacientesResponse response = new ListaPacientesResponse();
+    public PacienteResponse listarPaciente(int id){
+        PacienteResponse response = new PacienteResponse();
 
-        PacienteVo paciente = new PacienteVo();
+        //PacienteVo paciente = new PacienteVo();
         Optional<DatPaciente> pacienteDB = pacienteRepository.findById(id);
         try{
 
-                DatDueno duenoDB = pacienteDB.getDatDueno();
-                DuenoVo duenoVo = new DuenoVo(){{
-                    setIdDueno(duenoDB.getIdDueno());
-                    setDireccion(duenoDB.getDireccion());
-                    setNombre(duenoDB.getNombre());
-                }};
+            DatDueno duenoDB = pacienteDB.get().getDatDueno();
+            DuenoVo duenoVo = new DuenoVo(){{
+                setIdDueno(duenoDB.getIdDueno());
+                setDireccion(duenoDB.getDireccion());
+                setNombre(duenoDB.getNombre());
+                setTelefono(duenoDB.getTelefono());
+                setStatus(duenoDB.isStatus());
+            }};
 
-                PacienteVo pacienteVo = new PacienteVo(){{
-                    setIdPaciente(pacienteDB.getIdPaciente());
-                    setNombre(pacienteDB.getNombre());
-                    setComentarios(pacienteDB.getComentarios());
-                    setCatEspecieIdEspecie(pacienteDB.getCatEspecie().getIdEspecie());
-                    setCatEspecieNombre(pacienteDB.getCatEspecie().getNombre());
-                    setDuenoVo(duenoVo);
-                }};
+            PacienteVo pacienteVo = new PacienteVo(){{
+                setIdPaciente(pacienteDB.get().getIdPaciente());
+                setNombre(pacienteDB.get().getNombre());
+                setRaza(pacienteDB.get().getRaza());
+                setFechaNacimiento(pacienteDB.get().getFechaNacimiento());
+                setStatus(pacienteDB.get().isStatus());
+                setComentarios(pacienteDB.get().getComentarios());
+                setSexo(pacienteDB.get().getSexo());
+                setFoto(pacienteDB.get().getFoto());
+                setFechaAlta(pacienteDB.get().getFechaAlta());
+                setNumeroRegistro(pacienteDB.get().getNumeroRegistro());
+                setCatEspecieIdEspecie(pacienteDB.get().getCatEspecie().getIdEspecie());
+                setCatEspecieNombre(pacienteDB.get().getCatEspecie().getNombre());
+                setDuenoVo(duenoVo);
+            }};
 
-            pacientes.add(pacienteVo);
+            //pacientes.add(pacienteVo);
 
 
-            response.setPacientes(pacientes);
+            response.setPaciente(pacienteVo);
+            response.setCode("OK");
+            response.setMessage("Se realizo correctamente");
+
+        }catch (Exception e){
+            System.out.println("Ocurrio un error al obtener los pacientes");
+            response.setCode("ERROR");
+            response.setMessage("Ocurrio un error");
+        }
+
+        return response;
+
+    }
+
+    public PacienteResponse modificarPaciente(PacienteVo paciente){
+        PacienteResponse response = new PacienteResponse();
+
+        //PacienteVo paciente = new PacienteVo();
+        Optional<DatPaciente> pacienteDB = pacienteRepository.findById(paciente.getIdPaciente());
+
+        if(pacienteDB.isPresent()){
+            pacienteDB.get().setNombre(paciente.getNombre());
+            pacienteDB.get().setRaza(paciente.getRaza());
+            pacienteDB.get().setFechaNacimiento(paciente.getFechaNacimiento());
+            pacienteDB.get().setStatus(paciente.isStatus());
+            pacienteDB.get().setComentarios(paciente.getComentarios());
+            pacienteDB.get().setSexo(paciente.getSexo());
+            pacienteDB.get().setFoto(paciente.getFoto());
+            pacienteDB.get().setFechaNacimiento(paciente.getFechaNacimiento());
+            pacienteDB.get().setNumeroRegistro(paciente.getNombre());
+            pacienteDB.get().getCatEspecie().setIdEspecie(paciente.getCatEspecieIdEspecie());
+            //pacienteDB.get().getCatEspecie().setNombre(paciente.getCatEspecieNombre());
+            pacienteDB.get().getDatDueno().setIdDueno(paciente.getDuenoVo().getIdDueno());
+
+            pacienteRepository.save(pacienteDB.get());
+            //especialidad.get().setNombre("Fisioterapia");
+            //especialidadRepository.save(especialidad.get());
+            //System.out.println("El nombre de la especialidad con id 4 es: " + especialidad.get().getNombre());
+        }else {
+            System.out.println("ID no encontrado");
+            response.setCode("ID FAILED");
+            response.setMessage("Ocurrio un error al buscar el ID");
+
+            return response;
+        }
+
+
+        Optional<DatPaciente> pacienteRF = pacienteRepository.findById(paciente.getIdPaciente());
+        try{
+
+            DatDueno duenoRF = pacienteDB.get().getDatDueno();
+            DuenoVo duenoVo = new DuenoVo(){{
+                setIdDueno(duenoRF.getIdDueno());
+                setDireccion(duenoRF.getDireccion());
+                setNombre(duenoRF.getNombre());
+                setTelefono(duenoRF.getTelefono());
+                setStatus(duenoRF.isStatus());
+            }};
+
+            PacienteVo pacienteVo = new PacienteVo(){{
+                setIdPaciente(pacienteRF.get().getIdPaciente());
+                setNombre(pacienteRF.get().getNombre());
+                setRaza(pacienteRF.get().getRaza());
+                setFechaNacimiento(pacienteRF.get().getFechaNacimiento());
+                setStatus(pacienteRF.get().isStatus());
+                setComentarios(pacienteRF.get().getComentarios());
+                setSexo(pacienteRF.get().getSexo());
+                setFoto(pacienteRF.get().getFoto());
+                setFechaAlta(pacienteRF.get().getFechaAlta());
+                setNumeroRegistro(pacienteRF.get().getNumeroRegistro());
+                setCatEspecieIdEspecie(pacienteRF.get().getCatEspecie().getIdEspecie());
+                setCatEspecieNombre(pacienteRF.get().getCatEspecie().getNombre());
+                setDuenoVo(duenoVo);
+            }};
+
+            //pacientes.add(pacienteVo);
+
+
+            response.setPaciente(pacienteVo);
             response.setCode("OK");
             response.setMessage("Se realizo correctamente");
 
