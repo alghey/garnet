@@ -59,4 +59,11 @@ public class PacienteServiceImpl implements PacienteService {
 
         return response;
     }
+
+    @Override
+    public PacienteVo listarpPacientesId(int Id) {
+
+        PacienteVo response = new PacienteVo();
+
+    }
 }
