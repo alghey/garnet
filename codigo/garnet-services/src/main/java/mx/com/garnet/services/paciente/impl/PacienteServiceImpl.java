@@ -1,18 +1,25 @@
 package mx.com.garnet.services.paciente.impl;
 
-import mx.com.garnet.common.pacientes.dto.ListaPacientesResponse;
-import mx.com.garnet.common.pacientes.dto.PacienteResponse;
+import mx.com.garnet.common.dueno.dto.CrearDuenoRequest;
+import mx.com.garnet.common.dueno.dto.CrearDuenoResponse;
+import mx.com.garnet.common.pacientes.dto.*;
 import mx.com.garnet.common.pacientes.vo.DuenoVo;
 import mx.com.garnet.common.pacientes.vo.PacienteVo;
+import mx.com.garnet.persistence.entities.CatEspecie;
 import mx.com.garnet.persistence.entities.DatDueno;
 import mx.com.garnet.persistence.entities.DatPaciente;
+import mx.com.garnet.persistence.repository.DuenoRepository;
+import mx.com.garnet.persistence.repository.EspecieRepository;
 import mx.com.garnet.persistence.repository.PacienteRepository;
+import mx.com.garnet.services.paciente.DuenoService;
 import mx.com.garnet.services.paciente.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +28,15 @@ public class PacienteServiceImpl implements PacienteService {
 
     @Autowired
     PacienteRepository pacienteRepository;
+
+    @Autowired
+    DuenoService duenoService;
+
+    @Autowired
+    DuenoRepository duenoRepository;
+
+    @Autowired
+    EspecieRepository especieRepository;
 
     @Override
     public ListaPacientesResponse listarPacientes() {
@@ -62,11 +78,12 @@ public class PacienteServiceImpl implements PacienteService {
 
         return response;
     }
-    public PacienteResponse listarPaciente(int id){
+    @Override
+    public PacienteResponse listarPaciente(PacienteVo paciente){
         PacienteResponse response = new PacienteResponse();
 
         //PacienteVo paciente = new PacienteVo();
-        Optional<DatPaciente> pacienteDB = pacienteRepository.findById(id);
+        Optional<DatPaciente> pacienteDB = pacienteRepository.findById(paciente.getIdPaciente());
         try{
 
             DatDueno duenoDB = pacienteDB.get().getDatDueno();
@@ -110,7 +127,7 @@ public class PacienteServiceImpl implements PacienteService {
         return response;
 
     }
-
+    @Override
     public PacienteResponse modificarPaciente(PacienteVo paciente){
         PacienteResponse response = new PacienteResponse();
 
@@ -186,6 +203,97 @@ public class PacienteServiceImpl implements PacienteService {
         }
 
         return response;
+    }
 
+    @Override
+    @Transactional
+    public CrearPacienteResponse crearPaciente(CrearPacienteRequest request) {
+        CrearPacienteResponse response = new CrearPacienteResponse();
+
+        if(request == null || request.getPacienteVo() == null || request.getPacienteVo().getCatEspecieIdEspecie() == null){
+            System.out.println("Los datos del request son nulos");
+            response.setCode("ERROR REQUEST");
+            response.setMessage("Error en el request");
+        }else{
+            PacienteVo pacienteVo = request.getPacienteVo();
+
+            if(pacienteVo.getDuenoVo() == null || pacienteVo.getDuenoVo().getNombre() == null){
+                System.out.println("Los datos del dueño no son validos");
+                response.setCode("ERROR DUEÑO");
+                response.setMessage("Error en el dueño");
+            }else{
+                DuenoVo duenoVo = pacienteVo.getDuenoVo();
+                DatDueno duenoDB = new DatDueno();
+                Boolean crearDuenoFlag = false;
+                if(duenoVo.getIdDueno() == null){
+                    crearDuenoFlag = true;
+                }
+                else{
+                    // si tiene id, ve a buscarlo
+                    duenoDB = duenoRepository.findById(duenoVo.getIdDueno()).get();
+                    if(duenoDB.getIdDueno() == null){
+                        crearDuenoFlag = true;
+                    }else{
+                        crearDuenoFlag =false;
+                    }
+                }
+
+                if(crearDuenoFlag){
+                    duenoVo = crearDueno(duenoVo);
+                    if(duenoVo != null) {
+                        duenoDB = duenoRepository.findById(duenoVo.getIdDueno()).get();
+                    }
+                }
+
+                Optional<CatEspecie> especieDB = especieRepository.findById(pacienteVo.getCatEspecieIdEspecie());
+
+                if(especieDB.isPresent()) {
+                    DatPaciente pacienteDB = new DatPaciente();
+                    pacienteDB.setNombre(pacienteVo.getNombre());
+                    pacienteDB.setComentarios(pacienteVo.getComentarios());
+                    pacienteDB.setFechaAlta(new Date());
+                    pacienteDB.setFechaNacimiento(pacienteVo.getFechaNacimiento());
+                    pacienteDB.setSexo(pacienteVo.getSexo());
+                    pacienteDB.setFoto(pacienteVo.getFoto());
+                    pacienteDB.setSexo(pacienteVo.getSexo());
+                    pacienteDB.setStatus(true);
+                    pacienteDB.setDatDueno(duenoDB);
+                    pacienteDB.setCatEspecie(especieDB.get());
+                    pacienteDB.setNumeroRegistro("p001");
+
+                    pacienteRepository.save(pacienteDB);
+
+                    pacienteVo.setIdPaciente(pacienteDB.getIdPaciente());
+                    response.setPacienteVo(pacienteVo);
+                    response.setCode("OK");
+                    response.setMessage("Se creo correctamente el paciente");
+                }else{
+                    System.out.println("Error al obtener especie");
+                    response.setCode("ERROR ESPECIE");
+                    response.setMessage("Error en la especie");
+                }
+
+            }
+        }
+
+        return response;
+    }
+    private DuenoVo crearDueno(DuenoVo duenoVo){
+        // No tiene id , por lo tanto se crea un nuevo dueño
+        CrearDuenoRequest crearDuenoRequest = new CrearDuenoRequest(){{
+            setDuenoVo(duenoVo);
+        }};
+
+        CrearDuenoResponse crearDuenoResponse = duenoService.crearDueno(crearDuenoRequest);
+
+        if(crearDuenoResponse.getCode().equals("OK")){
+            // se creo correctamente
+            duenoVo.setIdDueno(crearDuenoResponse.getDuenoVo().getIdDueno());
+            return duenoVo;
+        }else{
+            System.out.println("Error al crear el dueño");
+            return null;
+        }
     }
 }
+
