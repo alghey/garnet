@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class PacienteVo {
     private Integer idPaciente;
-   private DuenoVo duenoVo;
+    private DuenoVo duenoVo;
     private String nombre;
     private String raza;
     private Date fechaNacimiento;
