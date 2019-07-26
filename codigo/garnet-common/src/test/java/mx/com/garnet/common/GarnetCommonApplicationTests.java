@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ComponentScan("mx.com.ez.th.wallet.common")
+@ComponentScan("mx.com.garnet")
 public class GarnetCommonApplicationTests {
 	/*
 	private static Logger log = LogManager.getLogger(EzWalletCommonApplicationTests.class);
