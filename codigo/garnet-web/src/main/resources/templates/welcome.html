@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:insert="common/head :: header">
+
+<body>
+
+	<header th:insert="common/header-menu :: menu"></header>
+
+
+
+	<!-- BODY -->
+	
+	<section class="pt-4">
+		<div align="center">
+			<div class="container">
+			    
+			        <h1>BIENVENIDO</h1>
+			        <h2>
+			             <span th:text="${session['SPRING_SECURITY_CONTEXT'].authentication.principal.userName}" class="text-center redText">:D</span>                   			
+			        </h2>
+			    
+			</div>
+		</div>
+	</section>
+
+	<!-- END BODY -->
+	
+	
+	
+	<div th:include="common/include-footer"></div>
+		
+</body>
+</html>
