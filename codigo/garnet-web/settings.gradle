@@ -1,0 +1,4 @@
+rootProject.name = 'garnet-web'
+
+include ':garnet-common'
+project(':garnet-common').projectDir = new File(settingsDir,'../garnet-common')

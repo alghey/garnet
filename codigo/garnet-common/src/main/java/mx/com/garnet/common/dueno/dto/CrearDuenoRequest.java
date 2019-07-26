@@ -4,6 +4,10 @@ import mx.com.garnet.common.pacientes.vo.DuenoVo;
 
 public class CrearDuenoRequest {
     private DuenoVo duenoVo;
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     public DuenoVo getDuenoVo() {
         return duenoVo;
     }

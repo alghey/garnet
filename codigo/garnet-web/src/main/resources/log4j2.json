@@ -1,0 +1,66 @@
+{
+  "configuration": {
+    "name": "Default",
+    "properties": {
+      "property": [
+        {
+          "name": "log-path",
+          "value": "/private/tmp/rigel/logs"
+        },
+		{
+          "name": "archive-path",
+          "value": "/private/tmp/rigel/archive"
+        },
+        {
+          "name": "archive",
+          "value": "${archive-path}/web"
+        },
+        {
+          "name": "nameFile",
+          "value": "rigel-web"
+        }
+      ]
+    },
+    "appenders": {
+      "Console": {
+        "name": "Console-Appender",
+        "target": "SYSTEM_OUT",
+        "PatternLayout": {
+          "pattern": "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} --- %msg%n"
+        }
+      },
+      "RollingFile": {
+        "name":"RollingFile-Appender",
+        "fileName":"${log-path}/${nameFile}.log",
+        "filePattern":"${log-path}/${nameFile}-backup-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz",
+        "PatternLayout": {
+          "pattern":"%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"
+        },
+        "Policies": {
+          "SizeBasedTriggeringPolicy": {
+            "size":"500 MB"
+          }
+        },
+        "DefaultRolloverStrategy": {
+          "max":"60"
+        }
+      }
+    },
+    "loggers": {
+      "logger": {
+        "name": "mx.com.garnet",
+        "level": "debug",
+        "additivity": "false",
+        "appender-ref": [{
+          "ref": "Console-Appender",
+          "level": "info"
+        },
+          {
+            "ref": "RollingFile-Appender",
+            "level": "debug"
+          }]
+      }
+
+    }
+  }
+}
