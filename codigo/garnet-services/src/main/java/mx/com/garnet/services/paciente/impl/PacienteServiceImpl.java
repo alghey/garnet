@@ -255,7 +255,7 @@ public class PacienteServiceImpl implements PacienteService {
                     pacienteDB.setFechaNacimiento(pacienteVo.getFechaNacimiento());
                     pacienteDB.setSexo(pacienteVo.getSexo());
                     pacienteDB.setFoto(pacienteVo.getFoto());
-                    pacienteDB.setSexo(pacienteVo.getSexo());
+                    pacienteDB.setRaza(pacienteVo.getRaza());
                     pacienteDB.setStatus(true);
                     pacienteDB.setDatDueno(duenoDB);
                     pacienteDB.setCatEspecie(especieDB.get());
