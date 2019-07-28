@@ -214,7 +214,7 @@ public class PacienteServiceImpl implements PacienteService {
         CrearPacienteResponse response = new CrearPacienteResponse();
 
         if(request == null || request.getPacienteVo() == null || request.getPacienteVo().getCatEspecieIdEspecie() == null){
-            System.out.println("Los datos del request no son validos");
+            System.out.println("Los datos del request son nulos");
             response.setCode("ERROR REQUEST");
             response.setMessage("Error en el request");
         }else{
@@ -238,22 +238,19 @@ public class PacienteServiceImpl implements PacienteService {
                         crearDuenoFlag = true;
                     }else{
                         crearDuenoFlag =false;
-
+                    }
                 }
 
                 if(crearDuenoFlag){
-                    duenoVo = creaDueno(duenoVo);
-
-                    if(duenoVo != null){
-
+                    duenoVo = crearDueno(duenoVo);
+                    if(duenoVo != null) {
                         duenoDB = duenoRepository.findById(duenoVo.getIdDueno()).get();
                     }
                 }
 
                 Optional<CatEspecie> especieDB = especieRepository.findById(pacienteVo.getCatEspecieIdEspecie());
 
-                if(especieDB.isPresent()){
-
+                if(especieDB.isPresent()) {
                     DatPaciente pacienteDB = new DatPaciente();
                     pacienteDB.setNombre(pacienteVo.getNombre());
                     pacienteDB.setComentarios(pacienteVo.getComentarios());
@@ -268,6 +265,7 @@ public class PacienteServiceImpl implements PacienteService {
                     pacienteDB.setNumeroRegistro("p001");
 
                     pacienteRepository.save(pacienteDB);
+
                     pacienteVo.setIdPaciente(pacienteDB.getIdPaciente());
                     response.setPacienteVo(pacienteVo);
                     response.setCode("OK");
@@ -278,13 +276,11 @@ public class PacienteServiceImpl implements PacienteService {
                     response.setMessage("Error en la especie");
                 }
 
-
             }
         }
 
         return response;
     }
-
     private DuenoVo crearDueno(DuenoVo duenoVo){
         // No tiene id , por lo tanto se crea un nuevo dueño
         CrearDuenoRequest crearDuenoRequest = new CrearDuenoRequest(){{
@@ -296,7 +292,6 @@ public class PacienteServiceImpl implements PacienteService {
         if(crearDuenoResponse.getCode().equals("OK")){
             // se creo correctamente
             duenoVo.setIdDueno(crearDuenoResponse.getDuenoVo().getIdDueno());
-
             return duenoVo;
         }else{
             System.out.println("Error al crear el dueño");

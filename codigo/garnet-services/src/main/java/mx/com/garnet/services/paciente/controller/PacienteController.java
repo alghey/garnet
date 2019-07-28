@@ -1,14 +1,8 @@
 package mx.com.garnet.services.paciente.controller;
 
-<<<<<<< HEAD
+
 import mx.com.garnet.common.pacientes.dto.*;
 import mx.com.garnet.common.pacientes.vo.PacienteVo;
-=======
-import mx.com.garnet.common.pacientes.dto.CrearPacienteRequest;
-import mx.com.garnet.common.pacientes.dto.CrearPacienteResponse;
-import mx.com.garnet.common.pacientes.dto.ListaPacientesRequest;
-import mx.com.garnet.common.pacientes.dto.ListaPacientesResponse;
->>>>>>> master
 import mx.com.garnet.services.paciente.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
